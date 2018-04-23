@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import SVProgressHUD
 
 class LogInViewController: UIViewController {
 
@@ -28,6 +29,8 @@ class LogInViewController: UIViewController {
         //TODO: Log in the user
         var alert = UIAlertController()
         
+        SVProgressHUD.show()
+        
         //technically email/pswd checks are unnecessary (or, no special alert is thrown)
         if let email = emailTextfield.text {
             if let pswd = passwordTextfield.text {
@@ -42,6 +45,7 @@ class LogInViewController: UIViewController {
                         print("Log in successful!")
                         self.performSegue(withIdentifier: "goToChat", sender: self)
                     }
+                    SVProgressHUD.dismiss()
                 }
             }
         }

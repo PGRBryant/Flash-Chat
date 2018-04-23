@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import SVProgressHUD
 
 class RegisterViewController: UIViewController {
 
@@ -25,11 +26,11 @@ class RegisterViewController: UIViewController {
     }
   
     @IBAction func registerPressed(_ sender: AnyObject) {
+        SVProgressHUD.show()
         var alert = UIAlertController()
         if let email = emailTextfield.text {
             if let pswd = passwordTextfield.text {
                 Auth.auth().createUser(withEmail: email, password: pswd, completion: { (user, error) in
-                    
                     if error != nil {
                         let debugError = error.debugDescription.components(separatedBy: "\"")
                         alert = UIAlertController(title: "Uh Oh!", message: "\(debugError.dropFirst().first ?? "Something Crazy Happened!") ", preferredStyle: .alert)
@@ -38,8 +39,12 @@ class RegisterViewController: UIViewController {
                     } else {
                         //success
                         print("Registration successful!")
+//                        let changeRequest = user?.createProfileChangeRequest()
+//                        changeRequest?.displayName = "\(arc4random_uniform(28))"
+//                        print(user?.displayName ?? "hm")
                         self.performSegue(withIdentifier: "goToChat", sender: self)
                     }
+                    SVProgressHUD.dismiss()
                 })
             }
         }
